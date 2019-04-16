@@ -57,13 +57,14 @@ def predict(input_file = "530_test_data.json"):
     for event in data:
         event_pred = {}
 
+        event_pred["incident_id"] = event["incident_id"]
         event_pred["n_killed"] = pred_n_killed(event)
         event_pred["n_injured"] = pred_n_injured(event)
         event_pred["shooting_date"] = pred_shooting_date(event)
         event_pred["address"] = pred_address(event, nlp)
 
         predictions.append(event_pred)
-        
+
     return predictions
 
 print(predict())
