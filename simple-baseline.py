@@ -9,19 +9,19 @@ def load(file):
     return data
 
 # Returns 0 if no numbers in text
-def pick_num_from_text(text):
+def pick_first_num_from_text(text):
     nums = [int(s) for s in text.split() if s.isdigit()]
-    return random.choice(nums) if len(nums) > 0 else 0
+    return nums[0] if len(nums) > 0 else 0
 
 # Returns random num from text or 0 if no nums
 def pred_n_killed(event):
     text = event["text"]
-    return pick_num_from_text(text)
+    return pick_first_num_from_text(text)
 
 # Returns random num from text or 0 if no nums
 def pred_n_injured(event):
     text = event["text"]
-    return pick_num_from_text(text)
+    return pick_first_num_from_text(text)
 
 # Returns day before publish date
 # or yesterday if no publish date
@@ -44,7 +44,7 @@ def pred_address(event, nlp):
     candidates = list(filter(lambda x: x.label_ in desired_ents, doc.ents))
 
     # Pick a random one
-    pred = random.choice(candidates).text if len(candidates) > 0 else ""
+    pred = candidates[0].text if len(candidates) > 0 else ""
     
     return pred
 
