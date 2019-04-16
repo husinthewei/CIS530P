@@ -7,7 +7,7 @@
 The baseline model predicts four things:
 - n_killed: The number of people killed is predicted by selecting a random number from the text or 0 if no numbers exist.
 - n_injured: The number of people injured is predicted by selecting a random number from the text or 0 if no numbers exist.
-- n_pred_shooting_date: The shooting date is predicted as the day before the article publication or yesterday if no publication date.
+- shooting_date: The shooting date is predicted as the day before the article publication or yesterday if no publication date.
 - address: The shooting address is predicted by performing spaCy named entity recognition on the text, and selecting a random word of type "FAC" or "LOC".
 
 ### Sample Output
