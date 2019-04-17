@@ -1,12 +1,15 @@
 import json
 import argparse
 
+parser = argparse.ArgumentParser()
 
+parser.add_argument('--goldfile', type=str, required=True)
+parser.add_argument('--predfile', type=str, required=True)
 
 
 def read_labels(file):
     with open(file) as f:
-        incidents = json.load(file)
+        incidents = json.load(f)
 
     return incidents
 
@@ -23,7 +26,7 @@ def compute_acc(gold, pred, field):
 
 def main(args):
     gold = read_labels(args.goldfile)
-    pred = read_lables(args.predfile)
+    pred = read_labels(args.predfile)
 
     addr_acc = compute_acc(gold, pred, "address")
     date_acc = compute_acc(gold, pred, "shooting_date")
@@ -35,7 +38,7 @@ def main(args):
     print("Num killed accuracy: " + str(n_killed_acc))
     print("Num injured accuracy: " + str(n_injured_acc))
 
-if __name__ = '__main__':
-    args = parse.parse_args()
+if __name__ == '__main__':
+    args = parser.parse_args()
     main(args)
 

@@ -49,15 +49,14 @@ def pred_address(event, nlp):
     return pred
 
 
-def predict(input_file = "530_test_data.json"):
-    data = load(input_file)
+def predict(data):
     nlp = spacy.load("en_core_web_sm")
 
     predictions = []
     for event in data:
         event_pred = {}
 
-        event_pred["incident_id"] = event["incident_id"]
+        #event_pred["incident_id"] = event["incident_id"]
         event_pred["n_killed"] = pred_n_killed(event)
         event_pred["n_injured"] = pred_n_injured(event)
         event_pred["shooting_date"] = pred_shooting_date(event)
@@ -67,4 +66,11 @@ def predict(input_file = "530_test_data.json"):
 
     return predictions
 
-print(predict())
+def run():
+    X_test = load('data/X_test.json')
+    pred = predict(X_test)
+    #with open('out.json', 'w') as f:
+    #    f.write(json.dumps(pred))
+    return json.dumps(pred)
+
+print(run())

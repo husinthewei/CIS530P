@@ -1,7 +1,7 @@
 ### How to run
 1. Check requirements.txt for requirements and how to install
 2. With 530_test_data.json in the same directory as script, type `python simple-baseline.py > pred.json`
-3. Run scoring script on output and gold
+3. Run scoring script on output and gold `python score.py --goldfile data/y_test --predfile pred.json`
 
 ### Description of baseline
 The baseline model predicts four things:
@@ -20,3 +20,7 @@ Note in incident_id 486327, address is empty. Many texts actually do not have wo
 The following is the resulting score of running our scoring script on the baseline output:
 
 Score:
+Address accuracy: 0.1111111111111111
+Date accuracy: 0.1111111111111111
+Num killed accuracy: 0.1111111111111111
+Num injured accuracy: 0.16666666666666666
