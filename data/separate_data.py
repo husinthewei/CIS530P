@@ -8,8 +8,8 @@ def write_json_to_file(filename, json_obj):
 
 def main():
     # read and load data
-    data = {}
-    with open('530_test_data.json', 'r') as f:
+    data = []
+    with open('gv_data_3000.json', 'r') as f:
         data = json.loads(f.read())
 
     # split data into X and y
@@ -28,6 +28,8 @@ def main():
         }
         X.append(xdict)
         y.append(ydict)
+
+    print(len(data))
 
     # split X and y into training 70%, validation 9%, test 21%
     X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.3, random_state=3)
