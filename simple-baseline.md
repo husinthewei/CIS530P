@@ -20,7 +20,7 @@ Note in incident_id 486327, address is empty. Many texts actually do not have wo
 The following is the resulting score of running our scoring script on the baseline output:
 
 Score:
-Address accuracy: 0.1111111111111111
-Date accuracy: 0.1111111111111111
-Num killed accuracy: 0.1111111111111111
-Num injured accuracy: 0.16666666666666666
+`Address accuracy: 0.10589651022864019
+Date accuracy: 0.1865222623345367
+Num killed accuracy: 0.3008423586040915
+Num injured accuracy: 0.2503008423586041`
