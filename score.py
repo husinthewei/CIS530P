@@ -1,5 +1,7 @@
 import json
 import argparse
+import warnings 
+from sklearn.metrics import f1_score
 
 parser = argparse.ArgumentParser()
 
@@ -23,6 +25,49 @@ def compute_acc(gold, pred, field):
     return num_correct / len(gold)
 
 
+# # use only for the address field
+# def compute_f1_addr(gold, pred):
+#     n_correct = 0
+#     n_guessed = 0
+#     for i in range(len(gold)):
+#         if isinstance(pred[i]['address'], list):
+#             correct = 1 if gold[i]['address'] in pred[i]['address'] else 0
+#             n_correct += correct
+#             n_guessed += len(pred[i]['address'])
+#         else:
+#             correct = 1 if gold[i]['address'] == pred[i]['address'] else 0
+#             n_correct += correct
+#             n_guessed += 1
+#     precision = n_correct / n_guessed
+#     recall = n_correct / len(gold)
+#     f1 = (2 * precision * recall) / (precision + recall)
+#     return f1
+
+
+# def compute_f1_multinomial(gold, pred, field):
+#     class_indices = {}
+#     index = 0
+#     for i in range(len(gold)):
+#         key = gold[i][field]
+#         if key not in class_indices:
+#             class_indices[key] = index
+#             index = index + 1
+
+#     c_matrix = np.zeros((index + 1, index + 1))
+#     for i in range(len(gold)):
+
+def compute_macro_f1(gold, pred, field):
+    y_true = [x[field] for x in gold]
+    y_pred = [x[field] for x in pred]
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        return f1_score(y_true, y_pred, average='macro')
+
+def compute_micro_f1(gold, pred, field):
+    y_true = [x[field] for x in gold]
+    y_pred = [x[field] for x in pred]
+    return f1_score(y_true, y_pred, average='micro')
+
 
 def main(args):
     gold = read_labels(args.goldfile)
@@ -33,10 +78,24 @@ def main(args):
     n_killed_acc = compute_acc(gold, pred, "n_killed")
     n_injured_acc = compute_acc(gold, pred, "n_injured")
 
-    print("Address accuracy: " + str(addr_acc))
-    print("Date accuracy: " + str(date_acc))
-    print("Num killed accuracy: " + str(n_killed_acc))
-    print("Num injured accuracy: " + str(n_injured_acc))
+    print()
+    print("Address accuracy     : " + str(addr_acc))
+    print("Date accuracy        : " + str(date_acc))
+    print("Num killed accuracy  : " + str(n_killed_acc))
+    print("Num injured accuracy : " + str(n_injured_acc))
+    print()
+
+    addr_f1 = compute_macro_f1(gold, pred, "address")
+    date_f1 = compute_macro_f1(gold, pred, "shooting_date")
+    n_killed_f1 = compute_macro_f1(gold, pred, "n_killed")
+    n_injured_f1 = compute_macro_f1(gold, pred, "n_injured")
+
+    print("Address macro f1     : " + str(addr_f1))
+    print("Date macro f1        : " + str(date_f1))
+    print("Num killed macro f1  : " + str(n_killed_f1))
+    print("Num injured macro f1 : " + str(n_injured_f1))
+    print()
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
