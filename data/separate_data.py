@@ -1,16 +1,23 @@
 import json
 from sklearn.model_selection import train_test_split
+import argparse
+
+defaultfiles = ["raw/gv_data_1000.json", "raw/gv_data_2000.json", "raw/gv_data_3000.json", "raw/gv_data_4000.json", "raw/gv_data_5000.json", "raw/gv_data_6000.json", "raw/gv_data_7000.json"]
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--jsonfiles', type=str, nargs='+', default=defaultfiles)
 
 
 def write_json_to_file(filename, json_obj):
     with open(filename, 'w') as f:
         f.write(json.dumps(json_obj))
 
-def main():
+def main(args):
     # read and load data
-    data = {}
-    with open('530_test_data.json', 'r') as f:
-        data = json.loads(f.read())
+    data = []
+    for filename in args.jsonfiles:
+        with open(filename) as f:
+            data = data + json.loads(f.read())
 
     # split data into X and y
     X = []
@@ -28,6 +35,8 @@ def main():
         }
         X.append(xdict)
         y.append(ydict)
+
+    print(len(data))
 
     # split X and y into training 70%, validation 9%, test 21%
     X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.3, random_state=3)
@@ -47,4 +56,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    args = parser.parse_args()
+    main(args)

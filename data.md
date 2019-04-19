@@ -1,5 +1,12 @@
-The data come from gun-violence.org. The website collects data by running scripts to detect gun violence in news stories and then having volunteer annotaters fill in important fields about each article. For every article in the db, we extracted the contents and metadata of the article using a python library called newspaper, and we selected a handful of db fields to compile into a json object. Each object has the structure text, id number, title, publish date, text, address, number killed, number injured, and shooting date. 
+# Introduction
+The raw data come from the website https://www.kaggle.com/jameslko/gun-violence-data. Each event states the address, number killed, number injured, shooting date, the source article, and more. We used each event to get the training data. In particular, we extracted the contents of each article using a python library called newspaper, and compiled the event id, title, publish date, address, number killed, number injured, and the shooting date into a json object. 
 
-Taking this json file, we then bifurcated the data into the features and the labels where the features have the json object structure title and publish date, and the labels have the object structure number address, killed, number injured, and shooting date.
+Taking this filtered json file, we then bifurcated the data into the features and the labels where the features have title and publish date, and the labels have number address, killed, number injured, and shooting date.
 
-We currently have 83 elements in our 530_test_data.json file. With the current splitting scheme, we are allocating 70% of the data to training, 9% to validation, and 21% to testing. Thus we have 58 elements in training, 7 in validation, and 18 in testing currently. 
+# File structure
+* In the data folder, we have all the splitted training, validation, and testing files
+* In the data/raw folder, we have the raw data and the compiled json files. 
+
+# Dataset
+We currently have 3951 samples. With the current splitting scheme, we are allocating 70% of the data to training, 9% to validation, and 21% to testing. Thus we have 58 elements in training, 7 in validation, and 18 in testing currently. 
+
