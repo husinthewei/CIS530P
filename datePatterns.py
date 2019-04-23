@@ -60,6 +60,9 @@ def find_date(text, published_date):
     res = match_date(text)
     return res
 
+# WTF the gold said it happend on 2/10/14 when it was published on 2/6/14
+#https://www.indystar.com/story/news/crime/2014/02/06/person-shot-during-carjacking/5263729/
+
 
 
 
