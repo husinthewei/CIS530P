@@ -13,12 +13,12 @@ def pick_first_num_from_text(text):
     nums = [int(s) for s in text.split() if s.isdigit()]
     return nums[0] if len(nums) > 0 else 0
 
-# Returns random num from text or 0 if no nums
+# Returns first num from text or 0 if no nums
 def pred_n_killed(event):
     text = event["text"]
     return pick_first_num_from_text(text)
 
-# Returns random num from text or 0 if no nums
+# Returns first num from text or 0 if no nums
 def pred_n_injured(event):
     text = event["text"]
     return pick_first_num_from_text(text)
@@ -34,7 +34,7 @@ def pred_shooting_date(event):
     pred_event_date = publish_date - timedelta(days=1)
     return pred_event_date.strftime("%Y-%m-%d")
 
-# Returns a random location
+# Returns the first location
 def pred_address(event, nlp):
     doc = nlp(event["text"])
 
@@ -43,7 +43,7 @@ def pred_address(event, nlp):
     # Get words that are of the desired entities
     candidates = list(filter(lambda x: x.label_ in desired_ents, doc.ents))
 
-    # Pick a random one
+    # Pick the first one
     pred = candidates[0].text if len(candidates) > 0 else ""
     
     return pred
