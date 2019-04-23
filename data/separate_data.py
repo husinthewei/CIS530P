@@ -2,7 +2,7 @@ import json
 from sklearn.model_selection import train_test_split
 import argparse
 
-defaultfiles = ["raw/gv_data_1000.json", "raw/gv_data_2000.json", "raw/gv_data_3000.json", "raw/gv_data_4000.json", "raw/gv_data_5000.json", "raw/gv_data_6000.json", "raw/gv_data_7000.json"]
+defaultfiles = ["raw/gv_data_1.json", "raw/gv_data_2.json", "raw/gv_data_3.json", "raw/gv_data_4.json", "raw/gv_data_5.json", "raw/gv_data_6.json", "raw/gv_data_7.json"]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--jsonfiles', type=str, nargs='+', default=defaultfiles)
@@ -23,6 +23,9 @@ def main(args):
     X = []
     y = []
     for event in data:
+        if event["publish_date"] == "": # skip all shitty articles
+            continue
+
         xdict = {
             "text": event["text"],
             "publish_date": event["publish_date"]

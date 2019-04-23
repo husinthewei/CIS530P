@@ -5,6 +5,8 @@ import validators
 import json
 import argparse
 
+# there are 239,677 pages
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--start', type=int, required=True)
