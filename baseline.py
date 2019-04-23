@@ -32,9 +32,9 @@ def pred_shooting_date(event):
         pred_event_date = match_date(event['text'])
     else:
         pred_event_date = find_date(event['text'], event['publish_date'])
-        
+
     if pred_event_date is None:
-        pred_event_date = date.today() - timedelta(days=1)
+        pred_event_date = datetime.strptime(event['publish_date'], "%Y-%m-%d")
 
     return pred_event_date.strftime("%Y-%m-%d")
 
