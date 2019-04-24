@@ -4,6 +4,12 @@ import random
 import spacy
 
 from datePatterns import find_date, match_date
+from addressModel2 import AddressModel2
+from killedModel import KilledModel
+
+am = AddressModel2()
+km = KilledModel(killed=True)
+im = KilledModel(killed=False)
 
 def load(file):
     with open(file) as json_file:
@@ -17,13 +23,11 @@ def pick_first_num_from_text(text):
 
 # Returns random num from text or 0 if no nums
 def pred_n_killed(event):
-    text = event["text"]
-    return pick_first_num_from_text(text)
+    return km.predict_event(event)#0#pick_first_num_from_text(text)
 
 # Returns random num from text or 0 if no nums
 def pred_n_injured(event):
-    text = event["text"]
-    return pick_first_num_from_text(text)
+    return im.predict_event(event)
 
 # Returns day before publish date
 # or yesterday if no publish date
@@ -40,17 +44,13 @@ def pred_shooting_date(event):
 
 # Returns a random location
 def pred_address(event, nlp):
-    doc = nlp(event["text"])
-
-    desired_ents = ["FAC", "LOC"]
-
-    # Get words that are of the desired entities
-    candidates = list(filter(lambda x: x.label_ in desired_ents, doc.ents))
-
-    # Pick a random one
-    pred = candidates[0].text if len(candidates) > 0 else ""
     
-    return pred
+    return am.predict_event(event)
+
+def train(X_train, y_train):
+    am.fit(X_train, y_train)
+    km.fit(X_train, y_train)
+    im.fit(X_train, y_train)
 
 
 def predict(data):
@@ -72,6 +72,10 @@ def predict(data):
 
 def run():
     X_test = load('data/X_test.json')
+    X_train = load('data/X_val.json')
+    y_train = load('data/y_val.json')
+
+    train(X_train, y_train)
     pred = predict(X_test)
     #with open('out.json', 'w') as f:
     #    f.write(json.dumps(pred))
