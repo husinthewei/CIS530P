@@ -2,7 +2,7 @@ import json
 from sklearn.model_selection import train_test_split
 import argparse
 
-defaultfiles = ["raw/gv_data_1.json", "raw/gv_data_2.json", "raw/gv_data_3.json", "raw/gv_data_4.json", "raw/gv_data_5.json", "raw/gv_data_6.json", "raw/gv_data_7.json"]
+defaultfiles = ["raw/gv_data_1.json", "raw/gv_data_2.json", "raw/gv_data_3.json", "raw/gv_data_4.json", "raw/gv_data_5.json", "raw/gv_data_6.json", "raw/gv_data_7.json", "raw/gv_data_237.json", "raw/gv_data_237.json", "raw/gv_data_238.json", "raw/gv_data_239.json", "raw/gv_data_240.json"]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--jsonfiles', type=str, nargs='+', default=defaultfiles)
@@ -41,11 +41,11 @@ def main(args):
         X.append(xdict)
         y.append(ydict)
 
-    print(len(data))
+    print(len(X))
 
     # split X and y into training 70%, validation 9%, test 21%
-    X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.3, random_state=3)
-    X_val, X_test, y_val, y_test = train_test_split(X_inter, y_inter, test_size=0.7, random_state=42)
+    X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.02, random_state=3)
+    X_val, X_test, y_val, y_test = train_test_split(X_inter, y_inter, test_size=0.5, random_state=42)
     #print(len(X_train))
     #print(len(X_val))
     #print(len(X_test))
