@@ -23,7 +23,9 @@ def main(args):
     X = []
     y = []
     for event in data:
-        if event["publish_date"] == "": # skip all shitty articles
+
+    	# skip all faulty articles
+        if event["publish_date"] == "" or event["address"] not in event["text"]:
             continue
 
         xdict = {
