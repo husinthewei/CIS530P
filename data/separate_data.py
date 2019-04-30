@@ -4,6 +4,13 @@ import argparse
 
 defaultfiles = ["raw/gv_data_1.json", "raw/gv_data_2.json", "raw/gv_data_3.json", "raw/gv_data_4.json", "raw/gv_data_5.json", "raw/gv_data_6.json", "raw/gv_data_7.json", "raw/gv_data_237.json", "raw/gv_data_237.json", "raw/gv_data_238.json", "raw/gv_data_239.json", "raw/gv_data_240.json"]
 
+road_map = {"Road": "Rd", "Street": "St", "Avenue": "Ave", "Boulevard": "Blvd", 
+            "Lane": "Ln", "Drive": "Dr", "Terrace": "Ter", "Place": "Pl", "Court": "Ct",
+            "Roads": "Rd", "Streets": "St", "Avenues": "Ave", "Boulevards": "Blvd", 
+            "Lanes": "Ln", "Drives": "Dr", "Terraces": "Ter", "Places": "Pl", "Courts": "Ct",
+            "road": "Rd", "street": "St", "avenue": "Ave", "boulevard": "Blvd", 
+            "lane": "Ln", "drive": "Dr", "terrace": "Ter", "place": "Pl", "court": "Ct"}
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--jsonfiles', type=str, nargs='+', default=defaultfiles)
 
@@ -12,9 +19,20 @@ def write_json_to_file(filename, json_obj):
     with open(filename, 'w') as f:
         f.write(json.dumps(json_obj))
 
+
+def clean_addresses(text):
+    text = text.replace(".", " . ")
+    text = text.replace(",", " , ")
+    text = text.replace(";", " ; ")
+    address_cleaned = [road_map[tok] if tok in road_map else tok 
+                       for tok in text.split()]
+    return " ".join(address_cleaned)
+
 def main(args):
     # read and load data
     data = []
+
+
     for filename in args.jsonfiles:
         with open(filename) as f:
             data = data + json.loads(f.read())
@@ -24,7 +42,10 @@ def main(args):
     y = []
     for event in data:
 
-    	# skip all faulty articles
+        event["text"] = clean_addresses(event["text"])
+        event["address"] = clean_addresses(event["address"])
+
+        # skip all faulty articles
         if event["publish_date"] == "" or event["address"] not in event["text"]:
             continue
 
@@ -32,12 +53,14 @@ def main(args):
             "text": event["text"],
             "publish_date": event["publish_date"]
         }
+
         ydict = {
             "n_killed": event["n_killed"],
             "n_injured": event["n_injured"],
             "shooting_date": event["shooting_date"],
             "address": event["address"]
         }
+
         X.append(xdict)
         y.append(ydict)
 
