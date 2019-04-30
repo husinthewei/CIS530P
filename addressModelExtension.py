@@ -11,12 +11,12 @@ class AddressModel2(object):
         self.death_terms = ["killed", "death", "died", "shot", "fatal"]
         self.injured_terms = ["hurt", "shot", "injured", "hospitalized", "wounded"]
 
-        roads = ["Road", "Street", "Avenue", "Boulevard", "Lane", "Drive", "Terrace",
-         "Place", "Court", "Circle", "Rd", "Way", "St", "Ave", "Blvd", "Ln", "Dr", "Ter", "Pl", "Ct"]
+        roads = ["Rd", "St", "Ave", "Blvd", "Ln", "Dr", "Ter", "Pl", "Ct"]
 
-        addr_regex1 = r"[0-9]* block of( [^ ]*){1,3} (" + "|".join(roads) + ")"
-        addr_regex2 = r"[0-9]+( [^ ]*){1,3} (" + "|".join(roads) + ")"
-        self.addr_regex = "(" + addr_regex1 + "|" + addr_regex2 + ")"
+        addr_regex1 = r"[0-9]* block of( [^ ]*){1,2} (" + "|".join(roads) + ")"
+        addr_regex2 = r"[0-9]+( [^ ]*){1,2} (" + "|".join(roads) + ")"
+        addr_regex3 = r"([^ ]* ){1,2}(" + "|".join(roads) + ") and( [^ ]*){1,2} (" + "|".join(roads) + ")"
+        self.addr_regex = "(" + addr_regex1 + "|" + addr_regex2 + "|" + addr_regex3 + ")"
 
     def __sent_tokenize(self, text):
         doc = self.nlp(text)
@@ -28,10 +28,6 @@ class AddressModel2(object):
     # 0 otherwise
     def __sent2features(self, sent, loc):
         doc = self.nlp(sent)
-
-        roads = ["Rd", "Way", "St", "Ave", "Blvd", "Ln", "Dr", "Ter", "Pl", "Ct"
-                 "Road", "Street", "Avenue", "Boulevard", "Lane", "Drive", "Terrace",
-                 "Place", "Court"]
 
         features = {
             "death_terms": sum([1 if w.text in self.death_terms else 0 for w in doc]),

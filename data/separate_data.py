@@ -20,10 +20,10 @@ def write_json_to_file(filename, json_obj):
         f.write(json.dumps(json_obj))
 
 
-def clean_addresses(text):
-    text = text.replace(".", " . ")
-    text = text.replace(",", " , ")
-    text = text.replace(";", " ; ")
+def clean_addresses(text, remove_punc = False):
+    text = text.replace(".", "") if remove_punc else text.replace(".", " . ")
+    text = text.replace(",", "") if remove_punc else text.replace(",", " , ")
+    text = text.replace(";", "") if remove_punc else text.replace(";", " ; ")
     address_cleaned = [road_map[tok] if tok in road_map else tok 
                        for tok in text.split()]
     return " ".join(address_cleaned)
@@ -43,7 +43,7 @@ def main(args):
     for event in data:
 
         event["text"] = clean_addresses(event["text"])
-        event["address"] = clean_addresses(event["address"])
+        event["address"] = clean_addresses(event["address"], remove_punc = True)
 
         # skip all faulty articles
         if event["publish_date"] == "" or event["address"] not in event["text"]:
@@ -67,7 +67,7 @@ def main(args):
     print(len(X))
 
     # split X and y into training 70%, validation 9%, test 21%
-    X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.02, random_state=3)
+    X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.03, random_state=16)
     X_val, X_test, y_val, y_test = train_test_split(X_inter, y_inter, test_size=0.5, random_state=42)
     #print(len(X_train))
     #print(len(X_val))
