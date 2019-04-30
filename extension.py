@@ -3,14 +3,15 @@ import json
 import random
 import spacy
 
+
 from datePatterns import find_date, match_date
 from addressModel2 import AddressModel2
-from killedModel import KilledModel
+from killedModelExtension import KilledModelExtension
 from dateExtension import DateExtension
 
 am = AddressModel2()
-km = KilledModel(killed=True)
-im = KilledModel(killed=False)
+km = KilledModelExtension(killed=True)
+im = KilledModelExtension(killed=False)
 dm = DateExtension()
 
 def load(file):
@@ -25,11 +26,11 @@ def pick_first_num_from_text(text):
 
 # Returns random num from text or 0 if no nums
 def pred_n_killed(event):
-    return 0#km.predict_event(event)#0#pick_first_num_from_text(text)
+    return km.predict_event(event)#0#pick_first_num_from_text(text)
 
 # Returns random num from text or 0 if no nums
 def pred_n_injured(event):
-    return 0#im.predict_event(event)
+    return im.predict_event(event)
 
 # Returns day before publish date
 # or yesterday if no publish date
@@ -44,8 +45,8 @@ def pred_address(event, nlp):
 def train(X_train, y_train):
     #am.fit(X_train, y_train)
     dm.fit(X_train, y_train)
-    #km.fit(X_train, y_train)
-    #im.fit(X_train, y_train)
+    km.fit(X_train, y_train)
+    im.fit(X_train, y_train)
     #pass
 
 
