@@ -1,4 +1,3 @@
-
 import sklearn_crfsuite
 import spacy
 
@@ -14,6 +13,7 @@ class AddressModel2(object):
         doc = self.nlp(sent)
         death_terms = ["killed", "death", "died", "shot", "fatal"]
         injured_terms = ["hurt", "shot", "injured", "hospitalized", "wounded"]
+
 
         features = {
             "death_terms": sum([1 if w.text in death_terms else 0 for w in doc]),
@@ -35,13 +35,13 @@ class AddressModel2(object):
             sub_label = []
             sub_train = []
             for span in doc.sents:
+                sub_label.append("CRL" if label["address"] in span.string and label["address"] != "" else "N-CRL")
+
                 for token in span:
                     if token.ent_type_ in self.desired_ents:
-                        sub_label.append("CRL")
                         sub_train.append(self.__sent2features(span.string.strip(), 1))
                         break
                 else:
-                    sub_label.append("N-CRL")
                     sub_train.append(self.__sent2features(span.string.strip(), 0))
 
             y_train.append(sub_label)
@@ -66,19 +66,8 @@ class AddressModel2(object):
         for pred, span in zip(y_pred[0], doc.sents):
             if pred == "N-CRL": # no address here
                 continue
+
             candidates = list(filter(lambda x: x.label_ in self.desired_ents, span.ents))
             if len(candidates) != 0:
                 return candidates[0].text
         return ""
-
-    # def predict(self, X_events):
-    #     return [self.__predict_event(event) for event in X_events]
-
-
-
-    
-
-
-
-
-
