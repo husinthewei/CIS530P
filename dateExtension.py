@@ -65,10 +65,13 @@ class DateExtension(object):
                 X_test.append(self.__sent2features(sent, ft))
                 X_dates.append(pred_date.strftime("%Y-%m-%d"))
 
-        y_pred = self.clf.predict(X_test)
+        #y_pred = self.clf.predict(X_test)
+        raw_prob = self.clf.predict_proba(X_test)
+        y_prob = [prob[1] for prob in raw_prob]
+        m = max(y_prob)
         #print(self.clf.predict_proba(X_test))
-        for pred, candidate_date in zip(y_pred, X_dates):
-            if pred == 1:
+        for prob, candidate_date in zip(y_prob, X_dates):
+            if prob == m:
                 return candidate_date
 
         if len(X_dates) > 0:
