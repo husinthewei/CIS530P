@@ -34,8 +34,8 @@ class AddressModel2(object):
                  "Place", "Court"]
 
         features = {
-            "death_terms": sum([1 if w in self.death_terms else 0 for w in doc.text]),
-            "injured_terms": sum([1 if w in self.injured_terms else 0 for w in doc.text]),
+            "death_terms": sum([1 if w.text in self.death_terms else 0 for w in doc]),
+            "injured_terms": sum([1 if w.text in self.injured_terms else 0 for w in doc]),
             "location": loc,
             "contains_addr": 1 if re.search(self.addr_regex, doc.text) else 0
         }
@@ -54,13 +54,13 @@ class AddressModel2(object):
             sub_label = []
             sub_train = []
             for span in doc.sents:
+                sub_label.append("CRL" if label["address"] in span.string and label["address"] != "" else "N-CRL")
+                
                 for token in span:
                     if token.ent_type_ in self.desired_ents:
-                        sub_label.append("CRL")
                         sub_train.append(self.__sent2features(span.string.strip(), 1))
                         break
                 else:
-                    sub_label.append("N-CRL")
                     sub_train.append(self.__sent2features(span.string.strip(), 0))
 
             y_train.append(sub_label)
@@ -94,6 +94,3 @@ class AddressModel2(object):
             elif len(candidates) != 0:
                 return candidates[0].text
         return ""
-
-    # def predict(self, X_events):
-    #     return [self.__predict_event(event) for event in X_events]
