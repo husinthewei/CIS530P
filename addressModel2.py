@@ -8,14 +8,6 @@ class AddressModel2(object):
         self.nlp = spacy.load("en_core_web_sm")
         self.desired_ents = ["FAC", "LOC"]
 
-
-
-    def __sent_tokenize(self, text):
-        doc = self.nlp(text)
-        sentences = [sent.string.strip() for sent in doc]
-        return sentences
-
-
     # loc is 1 if sentence contains at least 1 location
     # 0 otherwise
     def __sent2features(self, sent, loc):
@@ -24,8 +16,8 @@ class AddressModel2(object):
         injured_terms = ["hurt", "shot", "injured", "hospitalized", "wounded"]
 
         features = {
-            "death_terms": sum([1 if w in death_terms else 0 for w in doc.text]),
-            "injured_terms": sum([1 if w in injured_terms else 0 for w in doc.text]),
+            "death_terms": sum([1 if w.text in death_terms else 0 for w in doc]),
+            "injured_terms": sum([1 if w.text in injured_terms else 0 for w in doc]),
             "location": loc
         }
         return features
