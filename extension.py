@@ -26,7 +26,7 @@ def pick_first_num_from_text(text):
 
 # Returns random num from text or 0 if no nums
 def pred_n_killed(event):
-    return km.predict_event(event)#0#pick_first_num_from_text(text)
+    return km.predict_event(event)
 
 # Returns random num from text or 0 if no nums
 def pred_n_injured(event):
@@ -35,19 +35,18 @@ def pred_n_injured(event):
 # Returns day before publish date
 # or yesterday if no publish date
 def pred_shooting_date(event):
-    return dm.predict_event(event)
+    return ""#dm.predict_event(event)
 
 # Returns a random location
 def pred_address(event, nlp):
-    
     return ""#am.predict_event(event)
 
 def train(X_train, y_train):
-    #am.fit(X_train, y_train)
-    dm.fit(X_train, y_train)
+    # am.fit(X_train, y_train)
+    # dm.fit(X_train, y_train)
     km.fit(X_train, y_train)
     im.fit(X_train, y_train)
-    #pass
+    # pass
 
 
 def predict(data):
