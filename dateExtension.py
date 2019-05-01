@@ -65,6 +65,8 @@ class DateExtension(object):
                 X_test.append(self.__sent2features(sent, ft))
                 X_dates.append(pred_date.strftime("%Y-%m-%d"))
 
+        if len(X_test) == 0:
+            return event["publish_date"]
         #y_pred = self.clf.predict(X_test)
         raw_prob = self.clf.predict_proba(X_test)
         y_prob = [prob[1] for prob in raw_prob]

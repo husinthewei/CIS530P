@@ -8,14 +8,16 @@ class AddressModel2(object):
         self.nlp = spacy.load("en_core_web_sm")
         self.desired_ents = ["FAC", "LOC"]
         
-        self.death_terms = ["killed", "death", "died", "shot", "fatal"]
+        self.death_terms = ["killed", "death", "died", "fatal"]
         self.injured_terms = ["hurt", "shot", "injured", "hospitalized", "wounded"]
+        self.crime_terms = ["robbed", "stole"]
 
-        roads = ["Rd", "St", "Ave", "Blvd", "Ln", "Dr", "Ter", "Pl", "Ct"]
+        #roads = ["Rd", "St", "Ave", "Blvd", "Ln", "Dr", "Ter", "Pl", "Ct"]
+        roads = ["Road", "Street", "Avenue", "Boulevard", "Lane", "Drive", "Terrace", "Place", "Court", "Circle"]
 
         addr_regex1 = r"[0-9]* block of( [^ ]*){1,2} (" + "|".join(roads) + ")"
         addr_regex2 = r"[0-9]+( [^ ]*){1,2} (" + "|".join(roads) + ")"
-        addr_regex3 = r"([^ ]* ){1,2}(" + "|".join(roads) + ") and( [^ ]*){1,2} (" + "|".join(roads) + ")"
+        addr_regex3 = r"([A-Z][\S]* ){1,2}(" + "|".join(roads) + r") and ([A-Z][\S]* ){1,2}(" + "|".join(roads) + ")"
         self.addr_regex = "(" + addr_regex1 + "|" + addr_regex2 + "|" + addr_regex3 + ")"
 
     def __sent_tokenize(self, text):
@@ -33,9 +35,22 @@ class AddressModel2(object):
             "death_terms": sum([1 if w.text in self.death_terms else 0 for w in doc]),
             "injured_terms": sum([1 if w.text in self.injured_terms else 0 for w in doc]),
             "location": loc,
-            "contains_addr": 1 if re.search(self.addr_regex, doc.text) else 0
+            "contains_addr": 1 if re.search(self.addr_regex, doc.text) else 0,
+            "crime_terms": sum([1 if w.text in self.crime_terms else 0 for w in doc])
         }
         return features
+
+    def __filter_ents(self, span):
+        candidates = list(filter(lambda x: x.label_ in self.desired_ents, span.ents))
+        for idx, x in enumerate(candidates):
+            x = x.text
+            if x[0:3] == "the":
+                candidates[idx] = x[4:]
+            elif x[0:2] == "at":
+                candidates[idx] = x[3:]
+            else:
+                candidates[idx] = x
+        return candidates
 
     def assign_label(self, num):
         arr = self.arr_labels
@@ -81,12 +96,17 @@ class AddressModel2(object):
         for pred, span in zip(y_pred[0], doc.sents):
             if pred == "N-CRL": # no address here
                 continue
+            candidates = self.__filter_ents(span)
 
-            candidates = list(filter(lambda x: x.label_ in self.desired_ents, span.ents))
-            addr = re.search(self.addr_regex, event["text"])
+            addr = re.search(self.addr_regex, span.string.strip())
 
             if addr:
                 return addr.group(0)
             elif len(candidates) != 0:
-                return candidates[0].text
+                return candidates[0]
+
+        # do baseline when all fails
+        candidates = self.__filter_ents(doc)
+        if len(candidates) > 0:
+            return candidates[0]
         return ""
