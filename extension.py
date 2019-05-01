@@ -5,8 +5,8 @@ import spacy
 
 
 from datePatterns import find_date, match_date
-from addressModel2 import AddressModel2
 from killedModelExtension import KilledModelExtension
+from addressModelExtension import AddressModel2
 from dateExtension import DateExtension
 
 am = AddressModel2()
@@ -42,11 +42,10 @@ def pred_address(event, nlp):
     return ""#am.predict_event(event)
 
 def train(X_train, y_train):
-    # am.fit(X_train, y_train)
-    # dm.fit(X_train, y_train)
+    am.fit(X_train, y_train)
+    dm.fit(X_train, y_train)
     km.fit(X_train, y_train)
     im.fit(X_train, y_train)
-    # pass
 
 
 def predict(data):

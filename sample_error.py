@@ -5,9 +5,9 @@ from sklearn.metrics import f1_score, precision_score, recall_score
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--goldfile', type=str, required=True)
-parser.add_argument('--predfile', type=str, required=True)
-parser.add_argument('--inputfile', type=str, required=True)
+parser.add_argument('--goldfile', type=str, default="data/y_test.json")
+parser.add_argument('--predfile', type=str, default="pred.json")
+parser.add_argument('--inputfile', type=str, default="data/X_test.json")
 parser.add_argument('--limit', type=int, default=2)
 parser.add_argument('--field', type=str, default='shooting_date')
 
