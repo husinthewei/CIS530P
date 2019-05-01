@@ -4,7 +4,7 @@ import random
 import spacy
 
 from datePatterns import find_date, match_date
-from addressModel2 import AddressModel2
+from addressModelExtension import AddressModel2
 from killedModel import KilledModel
 from dateExtension import DateExtension
 
@@ -39,10 +39,10 @@ def pred_shooting_date(event):
 # Returns a random location
 def pred_address(event, nlp):
     
-    return ""#am.predict_event(event)
+    return am.predict_event(event)
 
 def train(X_train, y_train):
-    #am.fit(X_train, y_train)
+    am.fit(X_train, y_train)
     dm.fit(X_train, y_train)
     #km.fit(X_train, y_train)
     #im.fit(X_train, y_train)
