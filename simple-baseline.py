@@ -16,12 +16,12 @@ def pick_first_num_from_text(text):
 # Returns first num from text or 0 if no nums
 def pred_n_killed(event):
     text = event["text"]
-    return pick_first_num_from_text(text)
+    return 0#pick_first_num_from_text(text)
 
 # Returns first num from text or 0 if no nums
 def pred_n_injured(event):
     text = event["text"]
-    return pick_first_num_from_text(text)
+    return 0#pick_first_num_from_text(text)
 
 # Returns day before publish date
 # or yesterday if no publish date

@@ -11,7 +11,7 @@ road_map = {"Road": "Rd", "Street": "St", "Avenue": "Ave", "Boulevard": "Blvd",
             "road": "Rd", "street": "St", "avenue": "Ave", "boulevard": "Blvd", 
             "lane": "Ln", "drive": "Dr", "terrace": "Ter", "place": "Pl", "court": "Ct"}
 
-road_map_inv = {"Rd": "Road", "St": "Street", "Ave": "Avenue", "Blvd": "Boulevard", "Ln": "Lane", "Dr": "Drive", "Ter": "Terrace", "Pl": "Place", "Ct": "Court", "Cir": "Circle", "Rd.": "Road", "St.": "Street", "Ave.": "Avenue", "Blvd.": "Boulevard", "Ln.": "Lane", "Dr.": "Drive", "Ter.": "Terrace", "Pl.": "Place", "Ct.": "Court", "Cir.": "Circle"}
+road_map_inv = {"Rd": "Road", "St": "Street", "Ave": "Avenue", "Blvd": "Boulevard", "Ln": "Lane", "Dr": "Drive", "Ter": "Terrace", "Pl": "Place", "Ct": "Court", "Cir": "Circle", "Rd.": "Road", "St.": "Street", "Ave.": "Avenue", "Blvd.": "Boulevard", "Ln.": "Lane", "Dr.": "Drive", "Ter.": "Terrace", "Pl.": "Place", "Ct.": "Court", "Cir.": "Circle",  "road": "Road", "street": "Sreett", "avenue": "Avenue", "boulevard": "Boulevard", "lane": "Lane", "drive": "Drive", "terrace": "Terrace", "place": "Place", "court": "Court"}
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--jsonfiles', type=str, nargs='+', default=defaultfiles)

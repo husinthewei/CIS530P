@@ -2,6 +2,7 @@ import sklearn_crfsuite
 import spacy
 import sys
 from sklearn.svm import SVC
+from sklearn.ensemble import AdaBoostClassifier
 
 class KilledModelExtension(object):
     def __init__(self, killed=True):
@@ -37,8 +38,11 @@ class KilledModelExtension(object):
             return -1
 
     def __doc2features(self, doc):
-        death_terms = ["kill", "death", "dead", "died", "die", "fatal", "killed"]
-        injured_terms = ["hurt", "shot", "injured", "injuries", "hospital", "wound", "wounded"]
+        death_terms = ["kill", "death", "dead", "died", "die", "fatal", "fatally", "killed", "deceased"]
+        injured_terms = ["hurt", "shot", "injured", "injuries", "injury", "hospital", "wound", "wounds", "wounded", "hospitalized"]
+        prison_terms = ["prison", "sentenced", "charged", "penalty", "ordered"]
+        single_terms = ["victim", "name", "individual"]
+        plural_terms = ["victims", "names", "others"]
         roads = ["Rd", "St", "Ave", "Blvd", "Ln", "Dr", "Ter", "Pl", "Ct"]
 
         int_num = 0
@@ -72,7 +76,10 @@ class KilledModelExtension(object):
         features = [
             len(unique_people),
             sum([1 if w.text in death_terms else 0 for w in doc]),
-            sum([1 if w.text in injured_terms else 0 for w in doc])
+            sum([1 if w.text in injured_terms else 0 for w in doc]),
+            sum([1 if w.text in prison_terms else 0 for w in doc]),
+            sum([1 if w.text in single_terms else 0 for w in doc]),
+            sum([1 if w.text in plural_terms else 0 for w in doc])
         ]
 
         return features
