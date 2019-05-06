@@ -6,9 +6,9 @@ import spacy
 import os
 
 import sys
-sys.path.insert(0, 'extension-1')
-sys.path.insert(0, 'extension-2')
-sys.path.insert(0, 'extension-3')
+sys.path.insert(0, 'code/extension-1')
+sys.path.insert(0, 'code/extension-2')
+sys.path.insert(0, 'code/extension-3')
 
 from dateExtension import DateExtension
 from datePatterns import find_date, match_date
@@ -71,13 +71,13 @@ def predict(data):
 
 def run(dev):
     if dev:
-        X_test = load(os.path.dirname(__file__) + '../data/data-dev/X_val.json')
-        X_train = load(os.path.dirname(__file__) + '../data/data-train/X_train.json')
-        y_train = load(os.path.dirname(__file__) + '../data/data-train/y_train.json')
+        X_test = load(os.path.dirname(__file__) + '/../data/data-dev/X_val.json')
+        X_train = load(os.path.dirname(__file__) + '/../data/data-train/X_train.json')
+        y_train = load(os.path.dirname(__file__) + '/../data/data-train/y_train.json')
     else:
-        X_test = load(os.path.dirname(__file__) + '../data/data-test/X_test.json')
-        X_train = load(os.path.dirname(__file__) + '../data/data-train/X_train.json')
-        y_train = load(os.path.dirname(__file__) + '../data/data-train/y_train.json')
+        X_test = load(os.path.dirname(__file__) + '/../data/data-test/X_test.json')
+        X_train = load(os.path.dirname(__file__) + '/../data/data-train/X_train.json')
+        y_train = load(os.path.dirname(__file__) + '/../data/data-train/y_train.json')
 
     train(X_train, y_train)
     pred = predict(X_test)
