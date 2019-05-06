@@ -2,6 +2,7 @@ from datetime import datetime, date, timedelta
 import json
 import random
 import spacy
+import os.path
 
 def load(file):
     with open(file) as json_file:
@@ -67,10 +68,8 @@ def predict(data):
     return predictions
 
 def run():
-    X_test = load('data/X_test.json')
+    X_test = load(os.path.dirname(__file__) + '../data-test/X_test.json')
     pred = predict(X_test)
-    #with open('out.json', 'w') as f:
-    #    f.write(json.dumps(pred))
     return json.dumps(pred)
 
 print(run())

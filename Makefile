@@ -1,5 +1,5 @@
 baseline:
-	python3 simple-baseline.py > pred.json
+	python3 baseline/simple-baseline.py > baseline/pred.json
 
 model:
 	python3 baseline.py > pred.json
