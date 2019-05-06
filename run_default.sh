@@ -1,0 +1,1 @@
+python3 code/default/baseline.py > output/pred_default.json

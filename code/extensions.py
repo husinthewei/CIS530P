@@ -3,6 +3,7 @@ import json
 import argparse
 import random
 import spacy
+import os
 
 import sys
 sys.path.insert(0, 'extension-1')
@@ -70,13 +71,13 @@ def predict(data):
 
 def run(dev):
     if dev:
-        X_test = load('data-dev/X_val.json')
-        X_train = load('data-train/X_train.json')
-        y_train = load('data-train/y_train.json')
+        X_test = load(os.path.dirname(__file__) + '../data/data-dev/X_val.json')
+        X_train = load(os.path.dirname(__file__) + '../data/data-train/X_train.json')
+        y_train = load(os.path.dirname(__file__) + '../data/data-train/y_train.json')
     else:
-        X_test = load('data-test/X_test.json')
-        X_train = load('data-train/X_train.json')
-        y_train = load('data-train/y_train.json')
+        X_test = load(os.path.dirname(__file__) + '../data/data-test/X_test.json')
+        X_train = load(os.path.dirname(__file__) + '../data/data-train/X_train.json')
+        y_train = load(os.path.dirname(__file__) + '../data/data-train/y_train.json')
 
     train(X_train, y_train)
     pred = predict(X_test)

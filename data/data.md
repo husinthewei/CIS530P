@@ -4,9 +4,8 @@ The raw data come from the website https://www.kaggle.com/jameslko/gun-violence-
 Taking this filtered json file, we then bifurcated the data into the features and the labels where the features have title and publish date, and the labels have number address, killed, number injured, and shooting date.
 
 # File structure
-* In the data folder, we have all the splitted training, validation, and testing files
+* In the data-* folders, we have all the splitted training, development, and testing files
 * In the data/raw folder, we have the raw data and the compiled json files. 
 
 # Dataset
-We currently have 3951 samples. With the current splitting scheme, we are allocating 70% of the data to training, 9% to validation, and 21% to testing. Thus we have 58 elements in training, 7 in validation, and 18 in testing currently. 
-
+We currently have 2338 samples. With the current splitting scheme, we are allocating 70% of the data to training, 9% to validation, and 21% to testing.

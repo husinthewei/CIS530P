@@ -1,1 +1,0 @@
-python3 simple-baseline.py > pred.json

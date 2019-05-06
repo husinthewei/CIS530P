@@ -1,2 +1,2 @@
-python3 extensions.py --dev > pred_dev.json;
-python3 score.py --predfile pred_dev.json --goldfile data-dev/y_val.json;
+python3 extensions.py --dev > output/pred_dev.json;
+python3 score.py --predfile output/pred_dev.json --goldfile data/data-dev/y_val.json;

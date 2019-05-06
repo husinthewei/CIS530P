@@ -1,0 +1,1 @@
+python3 code/baseline/simple-baseline.py > output/pred_baseline.json

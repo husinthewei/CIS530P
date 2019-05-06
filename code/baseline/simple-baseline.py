@@ -1,16 +1,8 @@
 from datetime import datetime, date, timedelta
-import os
 import json
 import random
 import spacy
-
-from datePatterns import find_date, match_date
-from addressModel import AddressModel
-from killedModel import KilledModel
-
-am = AddressModel()
-km = KilledModel(killed=True)
-im = KilledModel(killed=False)
+import os.path
 
 def load(file):
     with open(file) as json_file:
@@ -22,36 +14,40 @@ def pick_first_num_from_text(text):
     nums = [int(s) for s in text.split() if s.isdigit()]
     return nums[0] if len(nums) > 0 else 0
 
-# Returns random num from text or 0 if no nums
+# Returns first num from text or 0 if no nums
 def pred_n_killed(event):
-    return km.predict_event(event)#0#pick_first_num_from_text(text)
+    text = event["text"]
+    return 0 #pick_first_num_from_text(text)
 
-# Returns random num from text or 0 if no nums
+# Returns first num from text or 0 if no nums
 def pred_n_injured(event):
-    return im.predict_event(event)
+    text = event["text"]
+    return 0 #pick_first_num_from_text(text)
 
 # Returns day before publish date
 # or yesterday if no publish date
 def pred_shooting_date(event):
     if event['publish_date'] == "":
-        pred_event_date = match_date(event['text'])
+        publish_date = date.today()
     else:
-        pred_event_date = find_date(event['text'], event['publish_date'])
+        publish_date = datetime.strptime(event['publish_date'], "%Y-%m-%d")
 
-    if pred_event_date is None:
-        pred_event_date = datetime.strptime(event['publish_date'], "%Y-%m-%d")
-
+    pred_event_date = publish_date - timedelta(days=1)
     return pred_event_date.strftime("%Y-%m-%d")
 
-# Returns a random location
+# Returns the first location
 def pred_address(event, nlp):
-    
-    return am.predict_event(event)
+    doc = nlp(event["text"])
 
-def train(X_train, y_train):
-    am.fit(X_train, y_train)
-    km.fit(X_train, y_train)
-    im.fit(X_train, y_train)
+    desired_ents = ["FAC", "LOC"]
+
+    # Get words that are of the desired entities
+    candidates = list(filter(lambda x: x.label_ in desired_ents, doc.ents))
+
+    # Pick the first one
+    pred = candidates[0].text if len(candidates) > 0 else ""
+    
+    return pred
 
 
 def predict(data):
@@ -72,13 +68,8 @@ def predict(data):
     return predictions
 
 def run():
-    X_test = load(os.path.dirname(__file__) + '../data-test/X_test.json')
-    X_train = load(os.path.dirname(__file__) + '../data-train/X_train.json')
-    y_train = load(os.path.dirname(__file__) + '../data-train/y_train.json')
-
-    train(X_train, y_train)
+    X_test = load(os.path.dirname(__file__) + '/../../data/data-test/X_test.json')
     pred = predict(X_test)
-
     return json.dumps(pred)
 
 print(run())
