@@ -1,7 +1,7 @@
 import sklearn_crfsuite
 import spacy
 
-class AddressModel2(object):
+class AddressModel(object):
     def __init__(self):
         self.crf = sklearn_crfsuite.CRF( algorithm='lbfgs', c1=0.1, c2=0.1,max_iterations=100, all_possible_transitions=True)
         self.nlp = spacy.load("en_core_web_sm")

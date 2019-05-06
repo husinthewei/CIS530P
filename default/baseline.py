@@ -4,7 +4,7 @@ import random
 import spacy
 
 from datePatterns import find_date, match_date
-from addressModel2 import AddressModel2
+from addressModel import AddressModel
 from killedModel import KilledModel
 
 am = AddressModel2()

@@ -73,18 +73,15 @@ def main(args):
     print(len(X))
 
     # split X and y into training 70%, validation 9%, test 21%
-    X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.10, random_state=16)
-    X_val, X_test, y_val, y_test = train_test_split(X_inter, y_inter, test_size=0.5, random_state=42)
-    #print(len(X_train))
-    #print(len(X_val))
-    #print(len(X_test))
+    X_train, X_inter, y_train, y_inter = train_test_split(X, y, test_size=0.30, random_state=16)
+    X_val, X_test, y_val, y_test = train_test_split(X_inter, y_inter, test_size=0.70, random_state=42)
 
     # output split to json file
     write_json_to_file('X_train.json', X_train)
-    write_json_to_file('X_val.json',   X_val)
+    write_json_to_file('X_dev.json',   X_val)
     write_json_to_file('X_test.json',  X_test)
     write_json_to_file('y_train.json', y_train)
-    write_json_to_file('y_val.json',   y_val)
+    write_json_to_file('y_dev.json',   y_val)
     write_json_to_file('y_test.json',  y_test)
 
 
