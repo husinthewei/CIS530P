@@ -7,6 +7,7 @@ spacy en: 	python -m spacy download en
 datetime:   pip install datetime
 
 ## Code Structure
+`
 ├── code
 │   ├── baseline
 │   │   ├── simple-baseline.md
@@ -26,7 +27,7 @@ datetime:   pip install datetime
 │   │   └── addressModelExtension.py
 │   ├── extensions.md
 │   └── extensions.py
-
+`
 * baseline contains the simple baseline as described in the writeup
 * default contains the published baseline as described in the writeup
 * extension-1 through extension-3 contains each of the extensions.
