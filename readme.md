@@ -3,32 +3,13 @@ Our task is to extract pieces of information from gun violence news articles in 
 
 ## Requirements
 spacy: 		pip install spacy
+<br />
 spacy en: 	python -m spacy download en
+<br />
 datetime:   pip install datetime
 
-## Code Structure
-`
-├── code
-│   ├── baseline
-│   │   ├── simple-baseline.md
-│   │   └── simple-baseline.py
-│   ├── default
-│   │   ├── addressModel.py
-│   │   ├── baseline.md
-│   │   ├── baseline.py
-│   │   ├── datePatterns.py
-│   │   └── killedModel.py
-│   ├── extension-1
-│   │   ├── dateExtension.py
-│   │   └── datePatterns.py
-│   ├── extension-2
-│   │   └── killedModelExtension.py
-│   ├── extension-3
-│   │   └── addressModelExtension.py
-│   ├── extensions.md
-│   └── extensions.py
-`
+## Code Structure (in /code/)
 * baseline contains the simple baseline as described in the writeup
 * default contains the published baseline as described in the writeup
-* extension-1 through extension-3 contains each of the extensions.
-* extensions.py runs all 3 extensions to produce predictions.
+* extension-1 through extension-3 contain extensions to date, n_killed/n_injured, and address models respectively
+* extensions.py runs all 3 extensions to produce predictions
